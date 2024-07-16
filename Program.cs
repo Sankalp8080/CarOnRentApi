@@ -16,7 +16,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddScoped<ISubscribe, Subscribe>();
 builder.Services.AddScoped<IUserContact, UserContact>();
 builder.Services.AddDbContext<DatabaseDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("default")));
+options.UseSqlServer(builder.Configuration.GetConnectionString("default")));
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo
@@ -38,6 +38,8 @@ builder.Services.AddSwaggerGen(c =>
         }
     });
 });
+
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
 {
     options.TokenValidationParameters = new TokenValidationParameters
@@ -69,7 +71,10 @@ else
     app.UseExceptionHandler("/Error");
     app.UseHsts();
 }
-
+app.UseCors(c =>
+    {
+        c.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+    });
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();

@@ -31,7 +31,7 @@ namespace CarOnRentApi.Controllers
                 }
                 else
                 {
-                    return Ok(data);
+                    return Ok(data[0].status);
                 }
             }
             catch { throw; }
